@@ -6,11 +6,11 @@ Archibald is a self-hosted Slack integration written in PHP to post tag-selected
 
 ## How to use
 
-| Command | Description |
+| Command   | Description |
 | ---   | ---   |
-| `/archie tags`  | Shows a list of all tags that can be used, together with the amount of gifs available in brackets |
-| `/archie [tag]` | Use a tag to let Archibald search for a gif with that tag and randomly select one for you.<br>E.g: `/archie magic` |
-| `/archie shaq` | You’ll love it, because he (you know who) loves you dearly! |
+| ```/archie tags```  | Shows a list of all tags that can be used, together with the amount of gifs available in brackets |
+| ```/archie [tag]``` | Use a tag to let Archibald search for a gif with that tag and randomly select one for you.<br>E.g: `/archie magic` |
+| ```/archie shaq``` | You’ll love it, because he (you know who) loves you dearly! |
 
 ## Configure Integrations
 
