@@ -1,0 +1,14 @@
+/vendor
+composer.lock
+composer.phar
+config_local.php
+dploy.yaml
+TODO.md
+.DS_Store
+.DS_Store?
+*.sublime-*
+.Spotlight-V100
+.Trashes
+.ehthumbs.db
+Thumbs.db
+*.tmp
