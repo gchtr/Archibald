@@ -31,6 +31,7 @@ class Request
 	{
 		switch ($this->body) {
 			case 'shaq':
+				$this->body = 'I love you!';
 				$shaq = $this->staticRequest('shaq');
 				break;
 
@@ -46,6 +47,7 @@ class Request
 				break;
 
 			case '';
+				echo 'Please provide a tag! e.g. `/archie wow`';
 				break;
 
 			default:
@@ -83,15 +85,20 @@ class Request
 			);
 		}
 		catch (RequestException $e) {
-		    echo $e->getRequest();
-		    if ($e->hasResponse()) {
-		        $this->postResponse($e->getResponse());
-		    }
+			echo $e->getRequest();
+			if ($e->hasResponse()) {
+				$this->postResponse($e->getResponse());
+			}
 		}
 		$responseBody = $response->getBody();
 		$message = $this->randomGif($responseBody);
 
-		$this->postResponse($message);
+		if (false !== $message) {
+		  $this->postResponse($message);
+		}
+		else {
+			echo 'No GIFs found with tag *' . $this->body . '*';
+		}
 	}
 
 	public function searchTags($requestString)
@@ -108,9 +115,9 @@ class Request
 		}
 		catch (RequestException $e) {
 			echo $e->getRequest();
-		    if ($e->hasResponse()) {
-		        $this->postResponse($e->getResponse());
-		    }
+			if ($e->hasResponse()) {
+				$this->postResponse($e->getResponse());
+			}
 		}
 
 		$responseBody = $response->getBody();
@@ -124,6 +131,9 @@ class Request
 		$size = count($gifs);
 		$randomIndex = rand(0, $size-1);
 
+		if ($size < 1) {
+			return false;
+		}
 		return $gifs[$randomIndex]->file;
 	}
 
@@ -137,6 +147,10 @@ class Request
 			$tagList .= $tag->title . " (" . $tag->count . ")\t";
 		}
 
+		/**
+		 * The Tag List is echoed by slackbot,
+		 * so other don’t see it
+		 */
 		echo $tagList;
 	}
 
