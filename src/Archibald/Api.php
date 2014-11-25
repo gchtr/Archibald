@@ -12,28 +12,28 @@ class Api
 	public function __construct($request)
 	{
 		if ($request['token'] && $request['command']) {
-            $token 		= $request['token'];
-            $command 	= $request['command'];
+			$token      = $request['token'];
+			$command    = $request['command'];
 
-            if ($this->isValidToken($token) && $this->isValidCommand($command)) {
+			if ($this->isValidToken($token) && $this->isValidCommand($command)) {
 
-                $data = array(
-                    'channel'   => $request['channel_id'],
-                    'user'      => $request['user_name'],
-                    'body'      => $request['text']
-                );
+				$data = array(
+					'team_id'   => $request['team_id'],
+					'channel'   => $request['channel_id'],
+					'user_id'   => $request['user_id'],
+					'user'      => $request['user_name'],
+					'body'      => $request['text']
+				);
 
-                $request = new Request($data);
-            }
-            else {
-                echo 'Invalid Token or Command';
-            }
-        }
-        else {
-            echo 'No valid API call.';
-        }
-
-
+				$request = new Request($data);
+			}
+			else {
+				echo 'Invalid Token or Command';
+			}
+		}
+		else {
+			echo 'No valid API call.';
+		}
 	}
 
 	private function isValidToken($token)

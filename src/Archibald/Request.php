@@ -142,14 +142,20 @@ class Request
 
 	public function postResponse($message)
 	{
-		$finalMessage = $this->user . " replies with «" . $this->body . "»\n" . $message;
-		$request = $this->client->createRequest(
-			'POST',
-			SLACKBOT_HOOK . '&channel=' . $this->channel,
-			[
-				'body' => $finalMessage
-			]
+		$finalMessage = $this->user . ": <" . $message . "|" . $this->body . ">";
+		$channel = $this->channel;
+
+		$data = array(
+			'payload' => json_encode(array(
+				'username' => 'Archibald',
+				'icon_emoji' => ':hatched_chick:',
+				'channel' => $channel,
+				'text' => $finalMessage
+			))
 		);
-        $this->client->send($request);
+
+		$request = $this->client->post(SLACKBOT_HOOK, array(
+			'body' => $data
+		));
 	}
 }
