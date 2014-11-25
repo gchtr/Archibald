@@ -1,0 +1,8 @@
+{
+	"autoload": {
+		"psr-4": {"Archibald\\": "src/Archibald"}
+    },
+    "require": {
+        "guzzlehttp/guzzle": "~4.0"
+    }
+}
