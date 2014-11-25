@@ -1,4 +1,4 @@
 <?php
 
-define('SLASHTOKEN', '');
-define('SLACKBOT_HOOK', '');
+define('SLASHCOMMAND_TOKEN', '');
+define('WEBHOOK_URL', '');

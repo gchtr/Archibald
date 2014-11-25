@@ -168,7 +168,7 @@ class Request
 			))
 		);
 
-		$request = $this->client->post(SLACKBOT_HOOK, array(
+		$request = $this->client->post(WEBHOOK_URL, array(
 			'body' => $data
 		));
 	}
