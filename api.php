@@ -2,6 +2,10 @@
 
 namespace Archibald;
 
+if (!file_exists('config.php')) {
+	die("Error" . " File: " . __FILE__ . " on line: " . __LINE__ . " - config.php not found!");
+}
+
 require 'config.php';
 require 'vendor/autoload.php';
 
