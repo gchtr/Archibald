@@ -1,7 +1,7 @@
 /vendor
 composer.lock
 composer.phar
-config_local.php
+config.php
 dploy.yaml
 TODO.md
 .DS_Store
