@@ -47,7 +47,7 @@ Now add a new **Incoming Webhook** integration for your team.
 
 ![](https://cloud.githubusercontent.com/assets/2084481/5192319/cb321104-74f6-11e4-90ac-1e952a176534.png)
 
-All you need to do in the settings for the **Incoming Webhook** integration is to copy the **Webhook URL** and paste it as a value for **WEBHOOK_URL** into `config.php`. All other values are overwritten by Archibald.
+It doesn’t matter which channel you choose for the messages to be posted to. All you need to do in the settings for the **Incoming Webhook** integration is to copy the **Webhook URL** and paste it as a value for **WEBHOOK_URL** into `config.php`. All other values are overwritten by Archibald.
 
 ![](https://cloud.githubusercontent.com/assets/2084481/5192055/5b4c7138-74f4-11e4-9e71-5597f30672fe.png)
 
@@ -61,7 +61,7 @@ Rename `config.sample.php` to `config.php` and set the **Token** for the **Slash
 
 ## Upload files to Webserver
 
-You need to upload all files to a webserver running PHP version 5.3.x or higher.
+You need to upload all files to a webserver running PHP version 5.4.x or higher.
 
 Before you upload the files, be sure to use [Composer](https://getcomposer.org/) to also include all vendor files.
 
