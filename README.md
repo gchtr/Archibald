@@ -1,6 +1,6 @@
 # Archibald
 
-Archibald is a self-hosted Slack integration written in PHP to post tag-selected GIF replies from [replygif.net](http://replygif.net) into your current Slack channel or Direct Message.
+Archibald is a self-hosted Slack integration written in PHP to post tag-selected GIF replies from [replygif.net](http://replygif.net) into your current Slack channel or Direct Messages.
 
 ![](https://cloud.githubusercontent.com/assets/2084481/5192177/922eef9a-74f5-11e4-8a4c-f11da8b9f561.gif)
 
@@ -13,7 +13,7 @@ Shows a list of all tags that can be used, together with the amount of gifs avai
 Use a tag to let Archibald search for a gif with that tag and randomly select one for you.<br>E.g: `/archie magic`
 
 `/archie shaq`  
-You’ll love it, because he (you know who) loves you dearly! |
+You’ll love it, because he (you know who) loves you dearly!
 
 ## Configure Integrations
 
