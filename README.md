@@ -57,7 +57,7 @@ All you need to do in the settings for the **Incoming Webhook** integration is t
 
 ## Config
 
-In `config.php` you need to set the **Token** for the **Slash Command Integration** as well as the **Webhook URL** from the **Incoming Webhook Integration**.
+Rename `config.sample.php` to `config.php` and set the **Token** for the **Slash Command Integration** as well as the **Webhook URL** from the **Incoming Webhook Integration**.
 
 ## Upload files to Webserver
 
