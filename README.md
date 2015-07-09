@@ -6,13 +6,13 @@ Archibald is a self-hosted Slack integration written in PHP to post tag-selected
 
 ## How to use
 
-`/archie tags`  
+`/archie tags`
 Shows a list of all tags that can be used, together with the amount of gifs available in brackets
 
-`/archie [tag]`  
+`/archie [tag]`
 Use a tag to let Archibald search for a gif with that tag and randomly select one for you.<br>E.g: `/archie magic`
 
-`/archie shaq`  
+`/archie shaq`
 You’ll love it, because he (you know who) loves you dearly!
 
 ## Configure Integrations
@@ -28,7 +28,7 @@ For the Integration Settings, use the following values:
 | Setting                   | Value                                         |
 |---                        |---                                            |
 | Command                   | /archie                                       |
-| URL                       | http://yourOwnDomain.com/archibald/api.php    | 
+| URL                       | http://yourOwnDomain.com/archibald/api.php    |
 | Method                    |  POST                                         |
 | Autocomplete help text    | ![](https://cloud.githubusercontent.com/assets/2084481/5191903/bdee426e-74f2-11e4-8bcb-61a547cc8fdd.png)            |
 | Descriptive Label         | Archibald                                     |
@@ -67,4 +67,17 @@ Before you upload the files, be sure to use [Composer](https://getcomposer.org/)
 
 ```sh
 composer install
+```
+## How to run within a Docker container
+
+Build the image
+
+```
+docker build -t="jverdeyen/archibald" .
+```
+
+Run the image, and replace the token and webhook url
+
+```
+docker run -p 80:80 -e SLASHCOMMAND_TOKEN=token -e WEBHOOK_URL="http://webhookurl" -d --name=archibald jverdeyen/archibald
 ```

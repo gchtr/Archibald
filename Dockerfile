@@ -1,5 +1,7 @@
 FROM debian:jessie
 
+MAINTAINER Joeri Verdeyen <info@jverdeyen.be>
+
 ENV SLASHCOMMAND_TOKEN **TOKEN**
 ENV WEBHOOK_URL **URL**
 
@@ -19,13 +21,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ADD api.php /archibald/
 ADD composer.json /archibald/
+ADD run.sh /archibald/
 ADD src /archibald/src
+
 WORKDIR /archibald
 
 RUN composer install --prefer-source -o
-
-RUN echo "<?php\ndefine('SLASHCOMMAND_TOKEN', '$SLASHCOMMAND_TOKEN');\ndefine('WEBHOOK_URL', '$WEBHOOK_URL');" > /archibald/config.php
+RUN chmod +x run.sh
 
 EXPOSE 80
 
-CMD ["php", "-S", "0.0.0.0:80"]
+CMD ["/archibald/run.sh"]
