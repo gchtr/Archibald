@@ -6,11 +6,13 @@ use Archibald\Request;
 
 class Api
 {
-	private $slashToken = SLASHCOMMAND_TOKEN;
+	private $slashToken = '';
 	private $commandName = '/archie';
 
 	public function __construct($request)
 	{
+		$this->slashToken = SLASHCOMMAND_TOKEN;
+
 		if ($request['token'] && $request['command']) {
 			$token      = $request['token'];
 			$command    = $request['command'];

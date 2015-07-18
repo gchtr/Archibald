@@ -1,0 +1,14 @@
+{
+  "name": "Archibald",
+  "description": "Slack integration to post GIF replies from replygif.net",
+  "repository": "https://github.com/lgaechter/Archibald",
+  "keywords": ["slack", "archibald", "archie", "replygif", "gif"],
+  "env": {
+    "SLASHCOMMAND_TOKEN": {
+      "description": "The Slash Command Token you get when you define a Slash Command in your Slack integrations."
+    },
+    "WEBHOOK_URL": {
+      "description": "The Webhook URL you get from defining an Incoming Webhook in your Slack Integrations."
+    }
+  }
+}
