@@ -54,7 +54,7 @@ It doesn’t matter which channel you choose for the messages to be posted to. A
 
 ![](https://cloud.githubusercontent.com/assets/2084481/5192055/5b4c7138-74f4-11e4-9e71-5597f30672fe.png)
 
-## Deploy to Heroku [deploy-to-heroku]
+## Deploy to Heroku
 
 If you set up Archibald the easy way, you can use the Heroku Deploy Button:
 
