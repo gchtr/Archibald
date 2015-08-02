@@ -1,10 +1,12 @@
 # Archibald
 
-Archibald is a self-hosted Slack integration written in PHP to post tag-selected GIF replies from [replygif.net](http://replygif.net) into your current Slack channel or Direct Messages.
+Archibald is a Slack integration written in PHP to post tag-selected GIF replies from [replygif.net](http://replygif.net) into your current Slack channel or Direct Messages. You can either self-host it or easily set it up with the **[Heroku Deploy Button](#deploy-to-heroku)**.
+
+## How to use Archibald
 
 ![](https://cloud.githubusercontent.com/assets/2084481/5192177/922eef9a-74f5-11e4-8a4c-f11da8b9f561.gif)
 
-## How to use
+With Archibald, you can use the following commands in Slack:
 
 `/archie tags`  
 Shows a list of all tags that can be used, together with the amount of gifs available in brackets
@@ -15,14 +17,14 @@ Use a tag to let Archibald search for a gif with that tag and randomly select on
 `/archie shaq`  
 You’ll love it, because he (you know who) loves you dearly!
 
-## Configure Integrations
+## Get Archibald up and running
 
-In your Slack account you will have to configure two integrations:
+You will have to take the following steps to set up and configure Archibald for your Slack team:
 
-* Slash Command
-* Incoming WebHooks
+1. Configure Slash Command and Incoming WebHooks integrations in your Slack settings.
+2. Deploy the integration with a Slash Command Token and the Incoming WebHooks URL you are given in step 1.
 
-### Slash Command
+### Slash Command Integration
 
 Add a new **Slash Command** integration for your team.
 
@@ -42,7 +44,7 @@ You will get a token that you will have to use later to configure Archibald.
 
 ![](https://cloud.githubusercontent.com/assets/2084481/5192062/73e9adb4-74f4-11e4-8e9d-e38292b313e2.png)
 
-### Incoming WebHooks
+### Incoming WebHooks Integration
 
 Now add a new **Incoming WebHooks** integration for your team.
 
@@ -52,9 +54,9 @@ It doesn’t matter which channel you choose for the messages to be posted to. A
 
 ![](https://cloud.githubusercontent.com/assets/2084481/5192055/5b4c7138-74f4-11e4-9e71-5597f30672fe.png)
 
-## Deploy to Heroku
+## Deploy to Heroku [deploy-to-heroku]
 
-If you want to use Archibald the easy way, you can use the Heroku Deploy Button:
+If you set up Archibald the easy way, you can use the Heroku Deploy Button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
@@ -88,4 +90,3 @@ You need to upload all files to a webserver running PHP version 5.4.x or higher.
 ```sh
 composer install
 ```
-
