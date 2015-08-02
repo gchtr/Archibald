@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 
 class Request
 {
+	private $webhookUrl;
+
 	private $body;
 	private $channel;
 	private $user;
@@ -18,6 +20,8 @@ class Request
 
 	public function __construct($request)
 	{
+		$this->webhookUrl = WEBHOOK_URL;
+
 		$this->body = $request['body'];
 		$this->channel = $request['channel'];
 		$this->user = $request['user'];
@@ -168,7 +172,7 @@ class Request
 			))
 		);
 
-		$request = $this->client->post(WEBHOOK_URL, array(
+		$request = $this->client->post($this->webhookUrl, array(
 			'body' => $data
 		));
 	}
