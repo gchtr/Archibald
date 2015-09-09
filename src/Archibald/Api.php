@@ -3,6 +3,7 @@
 namespace Archibald;
 
 use Archibald\Request;
+use Lazer\Classes\Database as Lazer;
 
 class Api
 {

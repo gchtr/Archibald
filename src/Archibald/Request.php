@@ -33,30 +33,40 @@ class Request
 
 	public function parseRequestType()
 	{
-		switch ($this->body) {
-			case 'shaq':
-				$this->body = 'I love you!';
-				$shaq = $this->staticRequest('shaq');
-				break;
+		/**
+		 * If command starts with "remember", we use the
+		 * remember feature
+		 */
+		if (preg_match('/^(remember\s)/', $this->body)) {
+			$this->remember($this->body);
+		}
 
-			case 'kannste':
-			case 'kannsteschonsomachen':
-			case 'kannstemachen':
-			case 'kacke':
-				$kannste = $this->staticRequest('kannste');
-				break;
+		else {
+			switch ($this->body) {
+				case 'shaq':
+					$this->body = 'I love you!';
+					$shaq = $this->staticRequest('shaq');
+					break;
 
-			case 'tags':
-				$tags = $this->searchTags($this->body);
-				break;
+				case 'kannste':
+				case 'kannsteschonsomachen':
+				case 'kannstemachen':
+				case 'kacke':
+					$kannste = $this->staticRequest('kannste');
+					break;
 
-			case '';
-				echo 'Please provide a tag! e.g. `/archie wow`';
-				break;
+				case 'tags':
+					$tags = $this->searchTags($this->body);
+					break;
 
-			default:
-				$search = $this->searchGif($this->body);
-				break;
+				case '';
+					echo 'Please provide a tag! e.g. `/archie wow`';
+					break;
+
+				default:
+					$search = $this->searchGif($this->body);
+					break;
+			}
 		}
 	}
 
@@ -76,14 +86,58 @@ class Request
 		$this->postResponse($responseBody);
 	}
 
-	public function searchGif($requestString)
+	private function remember($string)
+	{
+		$command = substr($string, strlen('remember '));
+
+		$splitCommand = explode('=', $command);
+
+		$tags = explode(',', $splitCommand[0]);
+		$url = $splitCommand[1];
+
+		if (is_array($tags) && !empty($tags)) {
+			if ($this->isImageUrl($url)) {
+				$remember = new Remember();
+				$remember->saveRemember($tags, $url);
+			}
+			else {
+				echo 'Aaah, provide with me raw imageeeees, GIFs are highly preferred! Aye!';
+				die();
+			}
+		}
+		else {
+			echo 'I need at least one tag to work with.';
+			die();
+		}
+	}
+
+	private function searchGif()
+	{
+		if (!$this->searchRemember()) {
+			$this->searchReplyGif();
+		}
+	}
+
+	private function searchRemember()
+	{
+		$remember = new Remember();
+		$result = $remember->getRemember($this->body);
+
+		if ($result) {
+			$this->postResponse($result);
+			return true;
+		}
+		return false;
+	}
+
+	private function searchReplyGif()
 	{
 		try {
 			$response = $this->client->get(
 				$this->requestGifs, [
 					'query' => [
 						'api-key' => $this->apiKey,
-						'tag' => $requestString
+						'tag' => $this->body
 					]
 				]
 			);
@@ -102,6 +156,7 @@ class Request
 		}
 		else {
 			echo 'No GIFs found with tag *' . $this->body . '*';
+			die();
 		}
 	}
 
@@ -175,5 +230,10 @@ class Request
 		$request = $this->client->post($this->webhookUrl, array(
 			'body' => $data
 		));
+	}
+
+	private function isImageUrl($url)
+	{
+		return preg_match('/\.(jpg|jpeg|png|gif)$/', $url);
 	}
 }

@@ -4,7 +4,9 @@ namespace Archibald;
 
 use Archibald\Archibald;
 
+require 'static.php';
 require 'vendor/autoload.php';
+
 
 $archie = new Archibald();
 

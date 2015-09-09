@@ -2,12 +2,14 @@
 
 namespace Archibald;
 
+require 'static.php';
 require 'vendor/autoload.php';
 
 $archie = new Archibald();
 
 $archie->loadConfig();
 $archie->setupConfigVars();
+$archie->setupRemember();
 
 ?>
 <!DOCTYPE html>

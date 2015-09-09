@@ -108,4 +108,13 @@ class Archibald
 	{
 		return $this->configErrors;
 	}
+
+	/**
+	 *
+	 */
+	public function setupRemember()
+	{
+		$remember = new Remember();
+		$remember->initDatabase();
+	}
 }
