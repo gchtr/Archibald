@@ -19,7 +19,7 @@ indent_size = 4
 # PHP according to PSR-2
 # http://www.php-fig.org/psr/psr-2/
 [*.php]
-indent_style = tab
+indent_style = spaces
 indent_size = 4
 
 [{*.js,*.json}]
