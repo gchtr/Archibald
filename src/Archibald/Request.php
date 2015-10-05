@@ -41,6 +41,10 @@ class Request
 			$this->remember($this->body);
 		}
 
+		else if (preg_match('/^(remembered$)/', $this->body)) {
+			$this->remembered();
+		}
+
 		else {
 			switch ($this->body) {
 				case 'shaq':
@@ -111,6 +115,25 @@ class Request
 		}
 	}
 
+	private function remembered()
+	{
+		$remember = new Remember();
+		$remembered = $remember->getRemembered();
+		$remembered = array_count_values($remembered);
+
+		$tagList = '';
+
+		foreach ($remembered as $tag => $count) {
+			$tagList .= $tag . " (" . $count . ")\t";
+		}
+
+		/**
+		 * The Tag List is echoed by slackbot,
+		 * so other don’t see it
+		 */
+		echo $tagList;
+	}
+
 	private function searchGif()
 	{
 		if (!$this->searchRemember()) {
@@ -149,10 +172,13 @@ class Request
 			}
 		}
 		$responseBody = $response->getBody();
-		$message = $this->randomGif($responseBody);
 
-		if (false !== $message) {
-		  $this->postResponse($message);
+		if (!empty($responseBody)) {
+		$message = $this->randomGif($responseBody);
+		}
+
+		if (false !== $message && property_exists($message, 'file')) {
+		  $this->postResponse($message->file);
 		}
 		else {
 			echo 'No GIFs found with tag *' . $this->body . '*';
@@ -180,12 +206,15 @@ class Request
 		}
 
 		$responseBody = $response->getBody();
-		$message = $this->getTagList($responseBody);
+
+		$message = $this->getTagList(json_decode($responseBody));
 	}
 
-	public function randomGif($responseBody)
+	public function randomGif($gifs, $isJson = true)
 	{
-		$gifs = json_decode($responseBody);
+		if ($isJson) {
+			$gifs = json_decode($gifs);
+		}
 
 		$size = count($gifs);
 		$randomIndex = rand(0, $size-1);
@@ -193,13 +222,11 @@ class Request
 		if ($size < 1) {
 			return false;
 		}
-		return $gifs[$randomIndex]->file;
+		return $gifs[$randomIndex];
 	}
 
-	public function getTagList($responseBody)
+	public function getTagList($tags)
 	{
-		$tags = json_decode($responseBody);
-
 		$tagList = '';
 
 		foreach ($tags as $tag) {
