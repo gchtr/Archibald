@@ -16,20 +16,24 @@ class Remember
             Lazer::create($this->tableName, array(
                 'id' => 'integer',
                 'tag' => 'string',
-                'archie' => 'string'
+                'archie' => 'string',
+                'user' => 'string',
+                'userid' => 'string'
             ));
 
             echo 'database created';
         }
     }
 
-    public function saveRemember($tags, $url)
+    public function saveRemember($tags, $url, $user, $userId)
     {
         $row = Lazer::table($this->tableName);
 
         foreach ($tags as $tag) {
             $row->tag = trim($tag);
             $row->archie = trim($url);
+            $row->user = $user;
+            $row->userid = $userId;
 
             try {
                 $row->save();
@@ -40,7 +44,7 @@ class Remember
             }
         }
 
-        echo 'Ha! You can now use *"' . implode('"* or *"', $tags) . '"* to get that masterpiece from ' . $url . '. Nobody will know :wink:';
+        echo 'Ha! You can now use *"' . implode('"* or *"', $tags) . '"* to run that masterpiece from ' . $url . '. Nobody will know :wink:';
     }
 
     public function getRemember($tag)

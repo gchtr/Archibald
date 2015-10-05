@@ -25,6 +25,7 @@ class Request
 		$this->body = $request['body'];
 		$this->channel = $request['channel'];
 		$this->user = $request['user'];
+		$this->userId = $request['user_id'];
 
 		$this->client = new Client();
 
@@ -102,7 +103,7 @@ class Request
 		if (is_array($tags) && !empty($tags)) {
 			if ($this->isImageUrl($url)) {
 				$remember = new Remember();
-				$remember->saveRemember($tags, $url);
+				$remember->saveRemember($tags, $url, $this->user, $this->userId);
 			}
 			else {
 				echo 'Aaah, provide with me raw imageeeees, GIFs are highly preferred! Aye!';
