@@ -50,8 +50,14 @@ class Remember
     public function getRemember($tag)
     {
         try {
-            $row = Lazer::table($this->tableName)->where('tag', '=', $tag)->find();
-            return $row->archie;
+            $rows = Lazer::table($this->tableName)->where('tag', '=', $tag)->findAll()->asArray();
+            return $rows;
+        }
+        catch(\Exception $e) {
+            return false;
+        }
+    }
+
     public function getRemembered()
     {
         try {

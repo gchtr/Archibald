@@ -145,11 +145,19 @@ class Request
 	private function searchRemember()
 	{
 		$remember = new Remember();
-		$result = $remember->getRemember($this->body);
+		$results = $remember->getRemember($this->body);
 
-		if ($result) {
-			$this->postResponse($result);
-			return true;
+		if ($results && !empty($results)) {
+			$message = $this->randomGif($results, false);
+
+			if (false !== $message) {
+				$this->postResponse($message['archie']);
+				return true;
+			}
+			else {
+				echo 'No GIFs found with tag *' . $this->body . '*';
+				return false;
+			}
 		}
 		return false;
 	}
@@ -175,7 +183,7 @@ class Request
 		$responseBody = $response->getBody();
 
 		if (!empty($responseBody)) {
-		$message = $this->randomGif($responseBody);
+			$message = $this->randomGif($responseBody);
 		}
 
 		if (false !== $message && property_exists($message, 'file')) {
