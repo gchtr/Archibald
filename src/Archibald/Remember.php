@@ -3,6 +3,8 @@
 namespace Archibald;
 
 use Lazer\Classes\Database as Lazer;
+use Lazer\Classes\Helpers\Validate;
+use Lazer\Classes\LazerException;
 
 class Remember
 {
@@ -11,8 +13,8 @@ class Remember
     public function initDatabase()
     {
         try {
-            \Lazer\Classes\Helpers\Validate::table($this->tableName)->exists();
-        } catch(\Lazer\Classes\LazerException $e) {
+            Validate::table($this->tableName)->exists();
+        } catch (LazerException $e) {
             Lazer::create($this->tableName, array(
                 'id' => 'integer',
                 'tag' => 'string',
@@ -21,7 +23,7 @@ class Remember
                 'userid' => 'string'
             ));
 
-            echo 'database created';
+            echo 'Database created';
         }
     }
 
@@ -37,14 +39,14 @@ class Remember
 
             try {
                 $row->save();
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 echo 'Ah, that didn’t work. The database is not nice to me today.';
                 die();
             }
         }
 
-        echo 'Ha! You can now use *"' . implode('"* or *"', $tags) . '"* to run that masterpiece from ' . $url . '. Nobody will know :wink:';
+        echo 'Ha! You can now use *"' . implode('"* or *"', $tags) . '"* to run that masterpiece from ' . $url
+             . '. Nobody will know :wink:';
     }
 
     public function getRemember($tag)
@@ -52,8 +54,7 @@ class Remember
         try {
             $rows = Lazer::table($this->tableName)->where('tag', '=', $tag)->findAll()->asArray();
             return $rows;
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -69,8 +70,7 @@ class Remember
             }
 
             return $tags;
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
