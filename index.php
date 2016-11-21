@@ -3,6 +3,7 @@
 namespace Archibald;
 
 require 'vendor/autoload.php';
+define('DOCUMENT_ROOT', dirname(__FILE__));
 
 $archie = new Archibald();
 
