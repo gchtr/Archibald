@@ -31,7 +31,7 @@ class Archibald
 	public function loadConfig()
 	{
 		if ($this->hasConfig()) {
-			$this->configPath = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->configName;
+			$this->configPath = DOCUMENT_ROOT . '/' . $this->configName;
 			require_once($this->configPath);
 			return true;
 		}
@@ -45,7 +45,7 @@ class Archibald
 	 */
 	private function hasConfig()
 	{
-		return file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $this->configName);
+		return file_exists(DOCUMENT_ROOT . '/' . $this->configName);
 	}
 
 	/**
