@@ -123,11 +123,17 @@ class Request
             $tagList .= $tag . " (" . $count . ")\t";
         }
 
-        /**
-         * The Tag List is echoed by slackbot,
-         * so other don’t see it
-         */
-        echo $tagList;
+        if (!empty($tagList)) {
+            /**
+             * The Tag List is echoed by slackbot,
+             * so other don’t see it
+             */
+            echo $tagList;
+        } else {
+            echo "I haven’t found any remembered tags."
+                . " Add your first one with \n /archie remember your, tags, separated, through, commas"
+                . " = http://your-url-to-your-image-file.gif";
+        }
     }
 
     private function searchGif()
