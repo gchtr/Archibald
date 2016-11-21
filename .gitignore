@@ -13,3 +13,5 @@ Thumbs.db
 *.tmp
 .rev
 .idea/
+remember.config.json
+remember.data.json
