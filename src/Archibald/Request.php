@@ -19,6 +19,11 @@ class Request
 
     private $client;
 
+    /**
+     * Request constructor.
+     *
+     * @param $request
+     */
     public function __construct($request)
     {
         $this->webhookUrl = WEBHOOK_URL;
@@ -33,6 +38,9 @@ class Request
         $this->parseRequestType();
     }
 
+    /**
+     * Parses request body and check what needs to be done.
+     */
     public function parseRequestType()
     {
         /**

@@ -50,8 +50,9 @@ class Archibald
     }
 
     /**
-     * Checks if the config file exists in the document root
-     * @return boolean Returns true if file exists
+     * Checks if the config file exists in the document root.
+     *
+     * @return boolean  Returns true if file exists.
      */
     private function hasConfig()
     {
@@ -59,8 +60,7 @@ class Archibald
     }
 
     /**
-     * Loops through the config variables and populates $configErrors if there
-     * are any
+     * Loops through the config variables and populates $configErrors if there are any.
      */
     public function setupConfigVars()
     {
@@ -76,6 +76,10 @@ class Archibald
     /**
      * Checks if a configuration variable is defined and not empty.
      * Environment variables take precedence over defined constants in config.php
+     *
+     * @param string    $configVar
+     *
+     * @return bool|string
      */
     private function checkConfigVar($configVar)
     {
@@ -103,7 +107,9 @@ class Archibald
     }
 
     /**
-     * @return boolean Returns true if there are errors
+     * Checks if there are any config errors.
+     *
+     * @return boolean  Returns true if there are errors
      */
     public function hasConfigErrors()
     {
@@ -111,6 +117,8 @@ class Archibald
     }
 
     /**
+     * Returns config errors.
+     *
      * @return array|null
      */
     public function getConfigErrors()
@@ -119,7 +127,7 @@ class Archibald
     }
 
     /**
-     *
+     * Initalize Remember and create Database if it doesn’t exist.
      */
     public function setupRemember()
     {

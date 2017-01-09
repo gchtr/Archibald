@@ -10,6 +10,9 @@ class Remember
 {
     private $tableName = 'remember';
 
+    /**
+     * Creates the database files when the database doesn’t exist yet.
+     */
     public function initDatabase()
     {
         try {
@@ -27,6 +30,14 @@ class Remember
         }
     }
 
+    /**
+     * Save a custom image file with a list of tags.
+     *
+     * @param array     $tags   An array of tags that are assigned to the image.
+     * @param string    $url    The url of the image.
+     * @param string    $user   The name of the user who saves the image.
+     * @param string    $userId The userId of the user who save the image.
+     */
     public function saveRemember($tags, $url, $user, $userId)
     {
         $row = Lazer::table($this->tableName);
@@ -45,10 +56,17 @@ class Remember
             }
         }
 
+        // Print success message
         echo 'Ha! You can now use *"' . implode('"* or *"', $tags) . '"* to run that masterpiece from ' . $url
              . '. Nobody will know :wink:';
     }
 
+    /**
+     * Get all images for a tag.
+     *
+     * @param string    $tag    Tag to search the database for.
+     * @return array|bool       Array on success, false when no tags are found.
+     */
     public function getRemember($tag)
     {
         try {
@@ -59,6 +77,11 @@ class Remember
         }
     }
 
+    /**
+     * Get a list of tags that are saved in the remembered-database.
+     *
+     * @return array|bool   Array on success, false when database is empty.
+     */
     public function getRemembered()
     {
         try {
