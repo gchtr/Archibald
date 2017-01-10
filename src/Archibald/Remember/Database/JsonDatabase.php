@@ -1,19 +1,19 @@
 <?php
 
-namespace Archibald;
+namespace Archibald\Remember\Database;
 
 use Lazer\Classes\Database as Lazer;
 use Lazer\Classes\Helpers\Validate;
 use Lazer\Classes\LazerException;
 
-class Remember
+class JsonDatabase implements DatabaseInterface
 {
     private $tableName = 'remember';
 
     /**
      * Creates the database files when the database doesn’t exist yet.
      */
-    public function initDatabase()
+    public function createDatabaseIfNotExists()
     {
         try {
             Validate::table($this->tableName)->exists();
@@ -21,7 +21,7 @@ class Remember
             Lazer::create($this->tableName, array(
                 'id' => 'integer',
                 'tag' => 'string',
-                'archie' => 'string',
+                'url' => 'string',
                 'user' => 'string',
                 'userid' => 'string'
             ));
@@ -30,13 +30,18 @@ class Remember
         }
     }
 
+    public function connect()
+    {
+        // Do nothing
+    }
+
     /**
      * Save a custom image file with a list of tags.
      *
-     * @param array     $tags   An array of tags that are assigned to the image.
-     * @param string    $url    The url of the image.
-     * @param string    $user   The name of the user who saves the image.
-     * @param string    $userId The userId of the user who save the image.
+     * @param array  $tags   An array of tags that are assigned to the image.
+     * @param string $url    The url of the image.
+     * @param string $user   The name of the user who saves the image.
+     * @param string $userId The userId of the user who save the image.
      */
     public function saveRemember($tags, $url, $user, $userId)
     {
@@ -44,7 +49,7 @@ class Remember
 
         foreach ($tags as $tag) {
             $row->tag = trim($tag);
-            $row->archie = trim($url);
+            $row->url = trim($url);
             $row->user = $user;
             $row->userid = $userId;
 
@@ -64,8 +69,9 @@ class Remember
     /**
      * Get all images for a tag.
      *
-     * @param string    $tag    Tag to search the database for.
-     * @return array|bool       Array on success, false when no tags are found.
+     * @param string $tag Tag to search the database for.
+     *
+     * @return array|bool Array on success, false when no tags are found.
      */
     public function getRemember($tag)
     {

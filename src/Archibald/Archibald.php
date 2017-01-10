@@ -2,6 +2,8 @@
 
 namespace Archibald;
 
+use Archibald\Remember\Remember;
+
 class Archibald
 {
     /**
@@ -132,6 +134,7 @@ class Archibald
     public function setupRemember()
     {
         $remember = new Remember();
-        $remember->initDatabase();
+        $remember->init();
+        $remember->createDatabaseIfNotExists();
     }
 }

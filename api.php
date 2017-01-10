@@ -1,13 +1,11 @@
 <?php
 
-namespace Archibald;
-
+use Archibald\Api;
 use Archibald\Archibald;
 
-require 'static.php';
-require 'vendor/autoload.php';
-define('DOCUMENT_ROOT', dirname(__FILE__));
-
+require_once('base.php');
+require_once('static.php');
+require_once(__DIR__ . '/vendor/autoload.php');
 
 $archie = new Archibald();
 

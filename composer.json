@@ -1,9 +1,12 @@
 {
 	"autoload": {
-		"psr-4": {"Archibald\\": "src/Archibald"}
+		"psr-4": {
+          "Archibald\\": "src/Archibald"
+        }
     },
     "require": {
         "guzzlehttp/guzzle": "~4.0",
-        "greg0/lazer-database": "1.0.*"
+        "greg0/lazer-database": "1.0.*",
+		"illuminate/database": "^5.3"
     }
 }

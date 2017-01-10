@@ -2,6 +2,7 @@
 
 namespace Archibald;
 
+use Archibald\Remember\Remember;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
@@ -119,29 +120,27 @@ class Request
         }
     }
 
-    private function remembered()
+    private function remembered($echo = true)
     {
         $remember = new Remember();
         $remembered = $remember->getRemembered();
         $remembered = array_count_values($remembered);
 
-        $tagList = '';
+        if (!empty($remembered)) {
+            // The Tag List is echoed by slackbot, so other don’t see it
+            if ($echo) {
+                $tagList = $this->getTagList($remembered);
+                echo $tagList;
+            }
 
-        foreach ($remembered as $tag => $count) {
-            $tagList .= $tag . " (" . $count . ")\t";
-        }
-
-        if (!empty($tagList)) {
-            /**
-             * The Tag List is echoed by slackbot,
-             * so other don’t see it
-             */
-            echo $tagList;
+            return $remembered;
         } else {
             echo "I haven’t found any remembered tags."
                 . " Add your first one with \n /archie remember your, tags, separated, through, commas"
                 . " = http://your-url-to-your-image-file.gif";
         }
+
+        return false;
     }
 
     private function searchGif()
@@ -160,13 +159,14 @@ class Request
             $message = $this->randomGif($results, false);
 
             if (false !== $message) {
-                $this->postResponse($message['archie']);
+                $this->postResponse($message['url']);
                 return true;
             } else {
                 echo 'No GIFs found with tag *' . $this->body . '*';
                 return false;
             }
         }
+
         return false;
     }
 
@@ -216,14 +216,40 @@ class Request
                 ]
             );
 
-            $responseBody = $response->getBody();
-            $this->getTagList(json_decode($responseBody));
         } catch (RequestException $e) {
             echo $e->getRequest();
             if ($e->hasResponse()) {
                 $this->postResponse($e->getResponse());
             }
         }
+
+        $responseBody = $response->getBody();
+        $tags = $this->parseTags(json_decode($responseBody));
+
+
+        $remembered = $this->remembered(false);
+
+        $total = [];
+
+        /**
+         * Merge arrays and count the values together.
+         * See http://stackoverflow.com/a/6086409/1059980.
+         */
+        foreach (array_keys($tags + $remembered) as $key) {
+            $total[$key] = (isset($tags[$key])
+                ? $tags[$key]
+                : 0
+            ) + (isset($remembered[$key])
+                ? $remembered[$key]
+                : 0
+            );
+        }
+
+        // Sort by tag
+        ksort($total);
+
+        // The Tag List is echoed by slackbot, so other don’t see it
+        echo $this->getTagList($total);
     }
 
     public function randomGif($gifs, $isJson = true)
@@ -242,16 +268,26 @@ class Request
         return $gifs[$randomIndex];
     }
 
+    public function parseTags($obj)
+    {
+        $tags = [];
+
+        foreach ($obj as $tag) {
+            $tags[ $tag->title ] = $tag->count;
+        }
+
+        return $tags;
+    }
+
     public function getTagList($tags)
     {
         $tagList = '';
 
-        foreach ($tags as $tag) {
-            $tagList .= $tag->title . " (" . $tag->count . ")\t";
+        foreach ($tags as $tag => $count) {
+            $tagList .= $tag . " (" . $count . ")\t";
         }
 
-        // The Tag List is echoed by slackbot, so other don’t see it
-        echo $tagList;
+        return $tagList;
     }
 
     public function postResponse($message)
@@ -259,18 +295,18 @@ class Request
         $finalMessage = $this->user . ": <" . $message . "|" . $this->body . ">";
         $channel = $this->channel;
 
-        $data = array(
-            'payload' => json_encode(array(
+        $data = [
+            'payload' => json_encode([
                 'username' => 'Archibald',
                 'icon_emoji' => ':hatched_chick:',
                 'channel' => $channel,
                 'text' => $finalMessage
-            ))
-        );
+            ])
+        ];
 
-        $this->client->post($this->webhookUrl, array(
+        $this->client->post($this->webhookUrl, [
             'body' => $data
-        ));
+        ]);
     }
 
     private function isImageUrl($url)
