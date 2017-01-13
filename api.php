@@ -1,10 +1,12 @@
 <?php
-
-use Archibald\Api;
+/**
+ * This file will be called by your Slash Command Integration.
+ */
+use Archibald\Request\Request;
 use Archibald\Archibald;
 
 require_once('base.php');
-require_once('static.php');
+require_once('custom.php');
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $archie = new Archibald();
@@ -12,22 +14,15 @@ $archie = new Archibald();
 $archie->loadConfig();
 $archie->setupConfigVars();
 
-/**
- * Return errors when there are
- */
+// Return errors when there are any
 if ($archie->hasConfigErrors()) {
-	$errors = $archie->getConfigErrors();
+    $errors = $archie->getConfigErrors();
 
-	foreach ($errors as $error) {
-		echo $error . ' ';
-	}
-}
-else {
-	/**
-	 * Make API request when required POST vars are present
-	 */
-	if (isset($_POST['command']) && '/archie' == $_POST['command']) {
-		$post = $_POST;
-		$request = new Api($post);
-	}
+    echo implode("\n", $errors);
+} else {
+    // Make API request when required POST vars are present
+    if (isset($_POST['command']) && '/archie' === $_POST['command']) {
+        $post = $_POST;
+        $request = new Request($post);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Archibald\Remember\Database;
 
+use Archibald\Request\RequestError;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -17,21 +18,23 @@ class SqlDatabase implements DatabaseInterface
         $capsule = new Capsule;
 
         $capsule->addConnection([
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'archibald',
-            'username'  => 'root',
-            'password'  => 'root',
+            'driver'    => DB_DRIVER,
+            'host'      => DB_HOST,
+            'database'  => DB_NAME,
+            'username'  => DB_USER,
+            'password'  => DB_PASSWORD,
             'charset'   => 'utf8',
             'collation' => 'utf8_general_ci',
-            'prefix'    => ''
+            'prefix'    => DB_PREFIX
         ]);
 
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
 
         /**
-         * http://stackoverflow.com/a/32730177/1059980
+         * Fetch results as arrays.
+         *
+         * See http://stackoverflow.com/a/32730177/1059980
          */
         Capsule::connection()->setFetchMode(\PDO::FETCH_ASSOC);
     }
@@ -49,11 +52,13 @@ class SqlDatabase implements DatabaseInterface
                     $table->string('userid');
                 });
 
-                echo 'Database created';
+                return 'Database created successfully';
             }
         } catch (\Exception $e) {
-            echo 'Database could not be created';
+            return $e;
         }
+
+        return true;
     }
 
     public function saveRemember($tags, $url, $user, $userId)
@@ -72,13 +77,10 @@ class SqlDatabase implements DatabaseInterface
         try {
             Capsule::table($this->tableName)->insert($rows);
         } catch (\Exception $e) {
-            echo 'Ah, that didn’t work. The database is not nice to me today.';
-            die();
+            return new RequestError('database', $e->getMessage());
         }
 
-        // Print success message
-        echo 'Ha! You can now use *"' . implode('"* or *"', $tags) . '"* to run that masterpiece from ' . $url
-             . '. Nobody will know :wink:';
+        return true;
     }
 
     public function getRemember($tag)
@@ -99,7 +101,7 @@ class SqlDatabase implements DatabaseInterface
             $rows = Capsule::table($this->tableName)->get()->toArray();
 
             if (empty($rows)) {
-                return false;
+                return new RequestError('not-found');
             }
 
             $tags = [];
@@ -110,7 +112,7 @@ class SqlDatabase implements DatabaseInterface
 
             return $tags;
         } catch (\Exception $e) {
-            return false;
+            return new RequestError('database', $e->getMessage());
         }
     }
 }

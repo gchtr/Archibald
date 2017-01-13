@@ -16,10 +16,10 @@ class Archibald
      *
      * @var array
      */
-    public $configVars = array(
+    public $configVars = [
         'SLASHCOMMAND_TOKEN',
         'WEBHOOK_URL'
-    );
+    ];
 
     /**
      * Path to the config file.
@@ -30,9 +30,11 @@ class Archibald
 
     /**
      * Array for all configuration errors
-     * @var array|null
+     * @var array
      */
-    private $configErrors = null;
+    private $configErrors = [];
+
+    private $messages = [];
 
     /**
      * Checks if a config file is present and loads it.
@@ -70,7 +72,7 @@ class Archibald
             $result = $this->checkConfigVar($configVar);
 
             if ($result !== true) {
-                $this->configErrors[] = $result;
+                $this->setConfigError($result);
             }
         }
     }
@@ -108,6 +110,18 @@ class Archibald
         }
     }
 
+    public function setConfigError($error, $type = '')
+    {
+        if (!empty($type)) {
+            $this->configErrors[] = [
+                'error' => $error,
+                'type' => $type,
+            ];
+        } else {
+            $this->configErrors[] = $error;
+        }
+    }
+
     /**
      * Checks if there are any config errors.
      *
@@ -115,7 +129,7 @@ class Archibald
      */
     public function hasConfigErrors()
     {
-        return $this->configErrors !== null;
+        return !empty($this->configErrors);
     }
 
     /**
@@ -128,13 +142,40 @@ class Archibald
         return $this->configErrors;
     }
 
+    public function setMessage($message)
+    {
+        return $this->messages[] = $message;
+    }
+
+    public function hasMessages()
+    {
+        return !empty($this->messages);
+    }
+
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
     /**
      * Initalize Remember and create Database if it doesn’t exist.
      */
     public function setupRemember()
     {
         $remember = new Remember();
-        $remember->init();
-        $remember->createDatabaseIfNotExists();
+
+        if (!$remember->useRemember()) {
+            return;
+        }
+
+        $result = $remember->createDatabaseIfNotExists();
+
+        if ($result instanceof \Exception) {
+            $this->setConfigError($result->getMessage(), 'Database Error');
+        } elseif (true === $result) {
+            return;
+        }
+
+        $this->setMessage($result);
     }
 }

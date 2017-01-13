@@ -2,6 +2,7 @@
 
 namespace Archibald\Remember\Database;
 
+use Archibald\Request\RequestError;
 use Lazer\Classes\Database as Lazer;
 use Lazer\Classes\Helpers\Validate;
 use Lazer\Classes\LazerException;
@@ -18,16 +19,27 @@ class JsonDatabase implements DatabaseInterface
         try {
             Validate::table($this->tableName)->exists();
         } catch (LazerException $e) {
-            Lazer::create($this->tableName, array(
-                'id' => 'integer',
-                'tag' => 'string',
-                'url' => 'string',
-                'user' => 'string',
-                'userid' => 'string'
-            ));
+            try {
+                // Make sure folder exists
+                if (!file_exists(LAZER_DATA_PATH)) {
+                    mkdir(LAZER_DATA_PATH, 0755, true);
+                }
 
-            echo 'Database created';
+                Lazer::create($this->tableName, array(
+                    'id'     => 'integer',
+                    'tag'    => 'string',
+                    'url'    => 'string',
+                    'user'   => 'string',
+                    'userid' => 'string'
+                ));
+
+                return 'Database created successfully';
+            } catch (\Exception $e) {
+                return $e;
+            }
         }
+
+        return true;
     }
 
     public function connect()
@@ -42,6 +54,8 @@ class JsonDatabase implements DatabaseInterface
      * @param string $url    The url of the image.
      * @param string $user   The name of the user who saves the image.
      * @param string $userId The userId of the user who save the image.
+     *
+     * @return RequestError|bool
      */
     public function saveRemember($tags, $url, $user, $userId)
     {
@@ -56,14 +70,11 @@ class JsonDatabase implements DatabaseInterface
             try {
                 $row->save();
             } catch (\Exception $e) {
-                echo 'Ah, that didn’t work. The database is not nice to me today.';
-                die();
+                return new RequestError('database', $e->getMessage());
             }
         }
 
-        // Print success message
-        echo 'Ha! You can now use *"' . implode('"* or *"', $tags) . '"* to run that masterpiece from ' . $url
-             . '. Nobody will know :wink:';
+        return true;
     }
 
     /**
@@ -86,13 +97,18 @@ class JsonDatabase implements DatabaseInterface
     /**
      * Get a list of tags that are saved in the remembered-database.
      *
-     * @return array|bool   Array on success, false when database is empty.
+     * @return mixed   Array on success, RequestError when database is empty.
      */
     public function getRemembered()
     {
         try {
             $rows = Lazer::table($this->tableName)->findAll();
-            $tags = array();
+
+            if (count($rows) < 1) {
+                return new RequestError('not-found');
+            }
+
+            $tags = [];
 
             foreach ($rows as $row) {
                 $tags[] = $row->tag;
@@ -100,7 +116,7 @@ class JsonDatabase implements DatabaseInterface
 
             return $tags;
         } catch (\Exception $e) {
-            return false;
+            return new RequestError('database', $e->getMessage());
         }
     }
 }
