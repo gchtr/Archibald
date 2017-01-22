@@ -5,9 +5,12 @@
 use Archibald\Request\Request;
 use Archibald\Archibald;
 
-require_once('base.php');
-require_once('custom.php');
 require_once(__DIR__ . '/vendor/autoload.php');
+require_once('base.php');
+
+if (file_exists(__DIR__ . '/custom.php')) {
+    require_once('custom.php');
+}
 
 $archie = new Archibald();
 

@@ -20,6 +20,10 @@ class Custom
     {
         $results = [];
 
+        if (!function_exists('get_custom')) {
+            return $results;
+        }
+
         foreach (get_custom() as $static) {
             if (in_array($tag, $static['tags'], true)) {
                 $result = [
