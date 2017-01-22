@@ -21,7 +21,7 @@ if ($archie->hasConfigErrors()) {
     echo implode("\n", $errors);
 } else {
     // Make API request when required POST vars are present
-    if (isset($_POST['command']) && '/archie' === $_POST['command']) {
+    if (isset($_POST['command'])) {
         $post = $_POST;
         $request = new Request($post);
     }

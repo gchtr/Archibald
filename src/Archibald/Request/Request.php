@@ -28,12 +28,6 @@ class Request
      */
     private $client;
 
-    /**
-     * TODO: don’t enforce command
-     * @var string
-     */
-    private $commandName = '/archie';
-
     private $useRemember = true;
 
     /**
@@ -48,12 +42,8 @@ class Request
             $command    = $request['command'];
 
             if ($this->isValidToken($token)) {
-                if ($this->isValidCommand($command)) {
                     $this->init($request);
                 } else {
-                    $this->postAsSlackBot('I don’t know what to do with this ¯\_(ツ)_/¯ (Invalid Command)');
-                }
-            } else {
                 $this->postAsSlackBot("Invalid Slash Command Token… Trying to do some hazy stuff, huh? d–(^ ‿ ^ )z\n" .
                 "Please check your config.php!");
             }
@@ -370,15 +360,5 @@ class Request
     private function isValidToken($token)
     {
         return $token == SLASHCOMMAND_TOKEN;
-    }
-
-    /**
-     * @param $command
-     *
-     * @return bool
-     */
-    private function isValidCommand($command)
-    {
-        return $command == $this->commandName;
     }
 }
