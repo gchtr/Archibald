@@ -20,7 +20,7 @@ define('WEBHOOK_URL', '');
  *
  * false    Do not use Remember feature.
  * 'SQL'    Uses an SQL database. Define connections below.
- * 'JSON'   Uses a JSON-file base database.
+ * 'JSON'   Uses a database based on JSON files.
  */
 define('DB_TYPE', false);
 
