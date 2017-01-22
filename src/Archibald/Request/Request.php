@@ -338,10 +338,11 @@ class Request
 
         $data = [
             'payload' => json_encode([
-                'username'   => $this->user,
-                'icon_emoji' => ':hatched_chick:',
-                'channel'    => $this->channel,
-                'text'       => $finalMessage,
+                'username'     => $this->user,
+                'icon_emoji'   => ':hatched_chick:',
+                'channel'      => $this->channel,
+                'text'         => $finalMessage,
+                'unfurl_media' => true,
             ])
         ];
 
