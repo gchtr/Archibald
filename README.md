@@ -22,7 +22,7 @@ Archibald lets you save your own images and gifs together with a list of tags.
 | `/archie remember` | Save an new image together with tags.<br><br>Example:<br>`/archie remember fabulous, kiss, wink = http://i.giphy.com/3o85xrhcwk5SnS8bvi.gif` |
 | `/archie remembered` | Show a list of all tags that somebody remembered. |
 
-To use the Remember feature, you need to set up your Remember database.
+To use the Remember feature, you need to [set up your Remember database](#setup-remember-database-optional).
 
 ## Get Archibald up and running
 
