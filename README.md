@@ -28,8 +28,8 @@ To use the Remember feature, you need to set up your Remember database.
 
 Take the following steps to set up and configure Archibald for your Slack team:
 
-1. Configure [Slash Command](#slash-command-integration) and [Incoming WebHooks](#incoming-webhooks) integrations in your Custom Integration settings of your Slack team settings.
-2. [Configure Archibald](configure-archibald-through-config-php) through `config.php`. Optionally configure the [Remember database](#setup-remember-database-optional) and [Custom Tags](#configure-custom-tags-optional).
+1. Configure [Slash Command](#slash-command-integration) and [Incoming WebHooks](#incoming-webhooks-integration) integrations in your Custom Integration settings of your Slack team settings.
+2. [Configure Archibald](#configure-archibald-through-configphp) through `config.php`. Optionally configure the [Remember database](#setup-remember-database-optional) and [Custom Tags](#configure-custom-tags-optional).
 3. Deploy Archibald either [to your own server](#deploy-to-your-own-php-server) or use the [Heroku Button](#deploy-to-heroku).
 4. Check if everything is set up correctly by visiting `https://url-to-your-archibald.example.com/api.php`
 
@@ -122,7 +122,7 @@ In your `config.php`:
 define('DB_TYPE', 'JSON');
 ```
 
-## Configure custom tags (optional)
+## Configure Custom Tags (optional)
 
 Custom Tags are kind of the third option to bring in additional gifs to Archibald. Rename `custom.sample.php` to `custom.php` and add your own tags.
 
