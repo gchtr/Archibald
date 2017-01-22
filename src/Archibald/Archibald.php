@@ -142,16 +142,27 @@ class Archibald
         return $this->configErrors;
     }
 
+    /**
+     * @param $message
+     *
+     * @return mixed
+     */
     public function setMessage($message)
     {
         return $this->messages[] = $message;
     }
 
+    /**
+     * @return bool
+     */
     public function hasMessages()
     {
         return !empty($this->messages);
     }
 
+    /**
+     * @return array
+     */
     public function getMessages()
     {
         return $this->messages;

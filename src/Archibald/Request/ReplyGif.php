@@ -5,6 +5,11 @@ namespace Archibald\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
+/**
+ * Class ReplyGif
+ *
+ * @package Archibald\Request
+ */
 class ReplyGif
 {
     private $gifEndpoint = 'http://replygif.net/api/gifs';
@@ -18,6 +23,11 @@ class ReplyGif
         $this->client = new Client();
     }
 
+    /**
+     * Get all reaction tags from the ReplyGif database.
+     *
+     * @return RequestError|array
+     */
     public function getTags()
     {
         try {
@@ -52,7 +62,9 @@ class ReplyGif
     }
 
     /**
-     * @param $tag
+     * Search for a tag in the ReplyGif database.
+     *
+     * @param string $tag Tag to search for.
      *
      * @return RequestError|array
      */

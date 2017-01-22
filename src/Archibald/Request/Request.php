@@ -12,8 +12,6 @@ use GuzzleHttp\Client;
  * Class Request
  *
  * @package Archibald\Request
- *
- *          TODO: Make nice tone and voice for response messages
  */
 class Request
 {
@@ -42,8 +40,8 @@ class Request
             $command    = $request['command'];
 
             if ($this->isValidToken($token)) {
-                    $this->init($request);
-                } else {
+                $this->init($request);
+            } else {
                 $this->postAsSlackBot("Invalid Slash Command Token… Trying to do some hazy stuff, huh? d–(^ ‿ ^ )z\n" .
                 "Please check your config.php!");
             }
@@ -147,8 +145,6 @@ class Request
 
     public function getTags()
     {
-        // TODO: Insert Custom Tags
-
         $replygif = new ReplyGifRequest();
         $replygifTags = $total = $replygif->getTags();
 
@@ -260,7 +256,7 @@ class Request
     }
 
     /**
-     * Generates a list of tags that is ready to be outputted to Slack.
+     * Generates a list of tags that is ready to be echoed to Slack.
      *
      * @param array $tags Tags to output
      *
@@ -338,9 +334,6 @@ class Request
             $url = $gif;
         }
 
-        /**
-         * TODO: write message as user
-         */
         $finalMessage = "<{$url}|{$message}>";
 
         $data = [

@@ -2,8 +2,20 @@
 
 namespace Archibald\Request;
 
+/**
+ * Class Custom
+ *
+ * @package Archibald\Request
+ */
 class Custom
 {
+    /**
+     * Tries to find a tag in the list of custom images.
+     *
+     * @param string $tag The tag to look for
+     *
+     * @return array|bool
+     */
     public function getCustom($tag)
     {
         $results = [];

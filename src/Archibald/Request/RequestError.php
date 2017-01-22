@@ -2,6 +2,11 @@
 
 namespace Archibald\Request;
 
+/**
+ * Class RequestError
+ *
+ * @package Archibald\Request
+ */
 class RequestError
 {
     private $type;

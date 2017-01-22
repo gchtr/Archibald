@@ -7,6 +7,11 @@ use Lazer\Classes\Database as Lazer;
 use Lazer\Classes\Helpers\Validate;
 use Lazer\Classes\LazerException;
 
+/**
+ * Class JsonDatabase
+ *
+ * @package Archibald\Remember\Database
+ */
 class JsonDatabase implements DatabaseInterface
 {
     private $tableName = 'remember';
@@ -50,10 +55,12 @@ class JsonDatabase implements DatabaseInterface
     /**
      * Save a custom image file with a list of tags.
      *
-     * @param array  $tags   An array of tags that are assigned to the image.
-     * @param string $url    The url of the image.
-     * @param string $user   The name of the user who saves the image.
-     * @param string $userId The userId of the user who save the image.
+     * @see \Archibald\Remember\Remember::saveRemember()
+     *
+     * @param $tags
+     * @param $url
+     * @param $user
+     * @param $userId
      *
      * @return RequestError|bool
      */
@@ -80,6 +87,8 @@ class JsonDatabase implements DatabaseInterface
     /**
      * Get all images for a tag.
      *
+     * @see \Archibald\Remember\Remember::getRemember()
+     *
      * @param string $tag Tag to search the database for.
      *
      * @return array|bool Array on success, false when no tags are found.
@@ -96,6 +105,8 @@ class JsonDatabase implements DatabaseInterface
 
     /**
      * Get a list of tags that are saved in the remembered-database.
+     *
+     * @see \Archibald\Remember\Remember::getRemembered()
      *
      * @return mixed   Array on success, RequestError when database is empty.
      */

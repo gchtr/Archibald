@@ -6,6 +6,11 @@ use Archibald\Request\RequestError;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Class SqlDatabase
+ *
+ * @package Archibald\Remember\Database
+ */
 class SqlDatabase implements DatabaseInterface
 {
     private $tableName = 'remember';
@@ -39,6 +44,11 @@ class SqlDatabase implements DatabaseInterface
         Capsule::connection()->setFetchMode(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Creates the database when it doesn’t exist yet.
+     *
+     * @return bool|\Exception|string
+     */
     public function createDatabaseIfNotExists()
     {
         try {
@@ -61,6 +71,18 @@ class SqlDatabase implements DatabaseInterface
         return true;
     }
 
+    /**
+     * Save a custom image file with a list of tags.
+     *
+     * @see \Archibald\Remember\Remember::saveRemember()
+     *
+     * @param $tags
+     * @param $url
+     * @param $user
+     * @param $userId
+     *
+     * @return RequestError|bool
+     */
     public function saveRemember($tags, $url, $user, $userId)
     {
         $rows = [];
@@ -83,6 +105,15 @@ class SqlDatabase implements DatabaseInterface
         return true;
     }
 
+    /**
+     * Get all images for a tag.
+     *
+     * @see \Archibald\Remember\Remember::getRemember()
+     *
+     * @param string $tag Tag to search the database for.
+     *
+     * @return array|bool Array on success, false when no tags are found.
+     */
     public function getRemember($tag)
     {
         try {
@@ -95,6 +126,13 @@ class SqlDatabase implements DatabaseInterface
         }
     }
 
+    /**
+     * Get a list of tags that are saved in the remembered-database.
+     *
+     * @see \Archibald\Remember\Remember::getRemembered()
+     *
+     * @return mixed   Array on success, RequestError when database is empty.
+     */
     public function getRemembered()
     {
         try {

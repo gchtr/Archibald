@@ -2,6 +2,11 @@
 
 namespace Archibald\Remember\Database;
 
+/**
+ * Interface DatabaseInterface
+ *
+ * @package Archibald\Remember\Database
+ */
 interface DatabaseInterface
 {
     public function connect();

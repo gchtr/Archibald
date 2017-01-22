@@ -4,8 +4,20 @@ namespace Archibald\Request;
 
 use Archibald\Remember\Remember as RememberDatabase;
 
+/**
+ * Class Remember
+ *
+ * @package Archibald\Request
+ */
 class Remember
 {
+    /**
+     * Get all saved Gifs based on a tag.
+     *
+     * @param string $tag The tag to search for
+     *
+     * @return RequestError|array|bool An array of tags or error if nothing was found.
+     */
     public function getGifs($tag)
     {
         $remember = new RememberDatabase();
@@ -18,6 +30,16 @@ class Remember
         return new RequestError('not-found');
     }
 
+    /**
+     * Save a new image with under a list of tags.
+     *
+     * @param string $string The string appended to the remember command that contains the list of tags
+     *                       and the URL of the image.
+     * @param string $user   The username of the user that executes the command.
+     * @param string $userId The user id of the user that executes the command.
+     *
+     * @return RequestError|array|bool
+     */
     public function saveTag($string, $user, $userId)
     {
         $command = substr($string, strlen('remember '));
@@ -76,6 +98,11 @@ class Remember
         ];
     }
 
+    /**
+     * Get all tags that were remembered.
+     *
+     * @return RequestError|array
+     */
     public function getRemembered()
     {
         $remember = new RememberDatabase();
@@ -89,6 +116,16 @@ class Remember
         return $remembered;
     }
 
+    /**
+     * Checks if URL might be an image.
+     *
+     * Of course this check doesn’t guarantee that a file is in fact an image,
+     * it just checks if it’s name like one.
+     *
+     * @param $url
+     *
+     * @return int
+     */
     private function isImageUrl($url)
     {
         return preg_match('/\.(jpg|jpeg|png|gif)$/', $url);
