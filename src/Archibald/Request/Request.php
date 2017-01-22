@@ -92,23 +92,22 @@ class Request
                 $this->getTags();
                 break;
 
-            // Can’t use 'help' as a command, because help is a tag
-            case 'manual':
-                // TODO: Add help
-                break;
-
+            /**
+             * Show help.
+             *
+             * Can’t use 'help' as a command, because help is a tag
+             */
             case ' ':
             case '':
-                $this->postAsSlackBot("Please provide me with a tag, pretty please! :weary: " .
-                "Like `/archie wow`, or `/archie please` or `/archie oh my god`\n" .
-                "Or use `/archie manual` to see how stuff works. KTHXBYE!");
+            case 'howto':
+            case 'manual':
+                $this->showHelp();
                 break;
 
             default:
                 $this->searchGif();
                 break;
         }
-
     }
 
     public function saveTag()
@@ -135,7 +134,7 @@ class Request
             if ($remembered->isErrorOfType('not-found')) {
                 $this->postAsSlackBot("I haven’t found any remembered tags. ʕノ•ᴥ•ʔノ ︵ ┻━┻  Add your first one with:\n" .
                     "`/archie remember your, tags, separated, through, commas" .
-                    " = http://your-url-to-your-image-file.gif`");
+                    " = https://example.com/url-to-gif-file.gif`");
             } elseif ($remembered->isErrorOfType('database')) {
                 $this->postAsSlackBot("Ooooops! I have a database error:\n:bomb: `" . $remembered->getMessage() . '`');
             }
@@ -276,6 +275,29 @@ class Request
         }
 
         return $tagList;
+    }
+
+    /**
+     * Post instructions on how to use Archibald.
+     */
+    public function showHelp()
+    {
+        $message = "This is Archibald! Here’s a list of commands you can use:\n\n" .
+            "*`/archie tags`* Shows a list of all tags that can be used.\n\n" .
+            "*`/archie [tag]`* Replace [tag] with a tag to let Archibald search for all Gifs with that tag " .
+            "and randomly select one for you.\n" .
+            "Examples: `/archie wow`, or `/archie please` or `/archie oh my god`\n\n";
+
+        if ($this->useRemember) {
+            $message .= "*`/archie remember`* Tell archie to save your own tags.\n" .
+            "Scheme: `/archie remember your, tags, separated, through, commas" .
+            " = https://example.com/url-to-gif-file.gif`\n" .
+            "Example: `/archie remember fabulous, kiss, wink = http://i.giphy.com/3o85xrhcwk5SnS8bvi.gif`\n\n" .
+            "*`/archie remembered`* Show a list of all tags that somebody remembered.\n\n" .
+            "Ready? KTHXBYE!";
+        }
+
+        $this->postAsSlackBot($message);
     }
 
     /**
