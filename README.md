@@ -31,7 +31,7 @@ Take the following steps to set up and configure Archibald for your Slack team:
 1. Configure [Slash Command](#slash-command-integration) and [Incoming WebHooks](#incoming-webhooks-integration) integrations in your Custom Integration settings of your Slack team settings.
 2. [Configure Archibald](#configure-archibald-through-configphp) through `config.php`. Optionally configure the [Remember database](#setup-remember-database-optional) and [Custom Tags](#configure-custom-tags-optional).
 3. Deploy Archibald either [to your own server](#deploy-to-your-own-php-server) or use the [Heroku Button](#deploy-to-heroku).
-4. Check if everything is set up correctly by visiting `https://url-to-your-archibald.example.com/api.php`
+4. Visit `https://url-to-your-archibald.example.com` to initialize the database and see if everything is set up correctly.
 
 ---
 
