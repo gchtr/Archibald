@@ -203,7 +203,6 @@ class Request
             $gifs = [];
         }
 
-
         if ($this->isError($gifs)) {
             if ($gifs->isErrorOfType('not-found')) {
                 $gifs = [];
@@ -216,18 +215,21 @@ class Request
         $replygif = new ReplyGifRequest();
         $replygifs = $replygif->getGifs($this->tag);
 
-        if (empty($gifs) && $this->isError($replygifs)) {
+        if ($this->isError($replygifs)) {
             if ($replygifs->isErrorOfType('not-found')) {
-                $this->postAsSlackBot("Oh noes! I couldn’t find any GIFs with tag \"*{$this->tag}*\"\n" .
-                "Pleeeeease, try `/archie tags` for a list of tags you can use.");
+                $replygifs = [];
             } else {
                 $this->postAsSlackBot($replygifs->getMessage());
             }
-
-            return;
         }
 
         $gifs = array_merge($gifs, $replygifs);
+
+        if (empty($gifs)) {
+            $this->postAsSlackBot("Oh noes! I couldn’t find any GIFs with tag \"*{$this->tag}*\"\n" .
+                "Pleeeeease, try `/archie tags` for a list of tags you can use.");
+        }
+
         $gif = $this->getRandomGif($gifs);
 
         $this->postToSlack($gif);
@@ -329,7 +331,7 @@ class Request
 
         if (is_array($gif)) {
             $url = $gif['url'];
-            $message = !empty($gif['text']) ? $gif['text'] : '';
+            $message = !empty($gif['text']) ? $gif['text'] : !empty($gif['tag']) ? $gif['tag'] : '';
         } else {
             $url = $gif;
         }
